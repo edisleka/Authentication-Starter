@@ -3,10 +3,10 @@
   "compilerOptions": {
     "strict": true,
     "forceConsistentCasingInFileNames": true,
+    "baseUrl": ".",
     "paths": {
-      "@/*": [
-        "./*"
-      ]
+      "@/*": ["src/*"],
+      "@assets/*": ["assets/*"]
     }
   },
   "include": [
