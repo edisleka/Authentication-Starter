@@ -1,8 +1,18 @@
-import { View, Text, TextInput, Pressable } from 'react-native'
+import {
+  View,
+  Text,
+  TextInput,
+  Pressable,
+  KeyboardAvoidingView,
+  Platform,
+} from 'react-native'
 
 export default function SignInScreen() {
   return (
-    <View className='flex-1 p-5 gap-5 justify-center bg-white'>
+    <KeyboardAvoidingView
+      className='flex-1 px-5 gap-5 justify-end bg-white'
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+    >
       <Text className='text-2xl font-semibold'>Sign in</Text>
       <TextInput
         placeholder='Email'
@@ -16,6 +26,6 @@ export default function SignInScreen() {
       <Pressable className='bg-[#4353FD] p-4 rounded-md items-center'>
         <Text className='text-white text-base font-semibold'>Sign In</Text>
       </Pressable>
-    </View>
+    </KeyboardAvoidingView>
   )
 }
