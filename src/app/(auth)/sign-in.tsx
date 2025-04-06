@@ -1,5 +1,6 @@
-import { Text, Pressable, KeyboardAvoidingView, Platform } from 'react-native'
+import { Text, KeyboardAvoidingView, Platform } from 'react-native'
 import CustomInput from '@/components/CustomInput'
+import CustomButton from '@/components/CustomButton'
 
 export default function SignInScreen() {
   return (
@@ -10,7 +11,6 @@ export default function SignInScreen() {
       <Text className='text-2xl font-semibold'>Sign in</Text>
 
       <CustomInput
-        className='bg-red-500'
         placeholder='Email'
         autoFocus={true}
         autoCapitalize='none' // Prevents auto-capitalization
@@ -31,9 +31,12 @@ export default function SignInScreen() {
         textContentType='password' // iOS autofill hint
       />
 
-      <Pressable className='bg-[#4353FD] p-4 rounded-md items-center'>
-        <Text className='text-white text-base font-semibold'>Sign In</Text>
-      </Pressable>
+      <CustomButton
+        text='Sign In'
+        onPress={() => {
+          console.log('Button pressed')
+        }}
+      />
     </KeyboardAvoidingView>
   )
 }
