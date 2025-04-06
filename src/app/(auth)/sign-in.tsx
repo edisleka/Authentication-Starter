@@ -1,11 +1,5 @@
-import {
-  View,
-  Text,
-  TextInput,
-  Pressable,
-  KeyboardAvoidingView,
-  Platform,
-} from 'react-native'
+import { Text, Pressable, KeyboardAvoidingView, Platform } from 'react-native'
+import CustomInput from '@/components/CustomInput'
 
 export default function SignInScreen() {
   return (
@@ -14,9 +8,10 @@ export default function SignInScreen() {
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
     >
       <Text className='text-2xl font-semibold'>Sign in</Text>
-      <TextInput
+
+      <CustomInput
+        className='bg-red-500'
         placeholder='Email'
-        className='border border-gray-300 p-2.5 rounded-md'
         autoFocus={true}
         autoCapitalize='none' // Prevents auto-capitalization
         keyboardType='email-address' // Helps with form autofill
@@ -25,9 +20,9 @@ export default function SignInScreen() {
         spellCheck={false} // Disables spell check
         textContentType='emailAddress' // iOS autofill hint
       />
-      <TextInput
+
+      <CustomInput
         placeholder='Password'
-        className='border border-gray-300 p-2.5 rounded-md'
         secureTextEntry={true}
         autoCapitalize='none' // Prevents auto-capitalization
         autoComplete='password' // Helps with form autofill
@@ -35,6 +30,7 @@ export default function SignInScreen() {
         returnKeyType='done' // Helps with form autofill
         textContentType='password' // iOS autofill hint
       />
+
       <Pressable className='bg-[#4353FD] p-4 rounded-md items-center'>
         <Text className='text-white text-base font-semibold'>Sign In</Text>
       </Pressable>
