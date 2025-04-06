@@ -1,8 +1,5 @@
-import { TextInput, TextInputProps } from 'react-native'
-
-interface CustomInputProps extends TextInputProps {
-  // Custom fields ...
-}
+import { TextInput } from 'react-native'
+import { CustomInputProps } from '@/components/CustomInput/CustomInput.types'
 
 export default function CustomInput(props: CustomInputProps) {
   return (

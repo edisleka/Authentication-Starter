@@ -1,9 +1,5 @@
-import { Text, Pressable, PressableProps } from 'react-native'
-
-interface CustomButtonProps extends PressableProps {
-  // Custom fields ...
-  text: string
-}
+import { Text, Pressable } from 'react-native'
+import { CustomButtonProps } from '@/components/CustomButton/CustomButton.types'
 
 export default function CustomButton({ text, ...props }: CustomButtonProps) {
   return (

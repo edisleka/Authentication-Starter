@@ -1,6 +1,5 @@
 import { Text, KeyboardAvoidingView, Platform } from 'react-native'
-import CustomInput from '@/components/CustomInput'
-import CustomButton from '@/components/CustomButton'
+import { CustomInput, CustomButton } from '@/components'
 
 export default function SignInScreen() {
   return (
