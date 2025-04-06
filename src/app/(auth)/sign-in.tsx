@@ -1,7 +1,14 @@
 import { Text, KeyboardAvoidingView, Platform } from 'react-native'
 import { CustomInput, CustomButton } from '@/components'
+import { useForm } from 'react-hook-form'
 
 export default function SignInScreen() {
+  const { control, handleSubmit } = useForm({})
+
+  const onSignIn = (data: any) => {
+    console.log('Sign In pressed: ', data)
+  }
+
   return (
     <KeyboardAvoidingView
       className='flex-1 px-5 gap-5 justify-center bg-white'
@@ -10,32 +17,34 @@ export default function SignInScreen() {
       <Text className='text-2xl font-semibold'>Sign in</Text>
 
       <CustomInput
+        control={control}
+        name='email'
         placeholder='Email'
         autoFocus={true}
-        autoCapitalize='none' // Prevents auto-capitalization
-        keyboardType='email-address' // Helps with form autofill
-        autoComplete='email' // Helps with form autofill
-        autoCorrect={false} // Prevents autocorrect for emails
-        spellCheck={false} // Disables spell check
-        textContentType='emailAddress' // iOS autofill hint
+        autoCapitalize='none'
+        keyboardType='email-address'
+        autoComplete='email'
+        autoCorrect={false}
+        spellCheck={false}
+        textContentType={Platform.OS === 'ios' ? 'password' : undefined}
+        importantForAutofill={Platform.OS === 'android' ? 'yes' : undefined}
+        returnKeyType='next'
       />
 
       <CustomInput
+        control={control}
+        name='password'
         placeholder='Password'
         secureTextEntry={true}
-        autoCapitalize='none' // Prevents auto-capitalization
-        autoComplete='password' // Helps with form autofill
-        autoCorrect={false} // Prevents autocorrect for passwords
-        returnKeyType='done' // Helps with form autofill
-        textContentType='password' // iOS autofill hint
+        autoCapitalize='none'
+        autoComplete='password'
+        autoCorrect={false}
+        returnKeyType='done'
+        textContentType={Platform.OS === 'ios' ? 'password' : undefined}
+        importantForAutofill={Platform.OS === 'android' ? 'yes' : undefined}
       />
 
-      <CustomButton
-        text='Sign In'
-        onPress={() => {
-          console.log('Button pressed')
-        }}
-      />
+      <CustomButton text='Sign In' onPress={handleSubmit(onSignIn)} />
     </KeyboardAvoidingView>
   )
 }
