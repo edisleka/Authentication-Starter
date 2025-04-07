@@ -24,15 +24,17 @@ const signinSchema = z.object({
     }),
 })
 
+type SignInFields = z.infer<typeof signinSchema>
+
 export default function SignInScreen() {
   const { control, handleSubmit } = useForm({
     resolver: zodResolver(signinSchema),
   })
 
-  const onSignIn = (data: any) => {
+  const onSignIn = (data: SignInFields) => {
     // Validate the form
 
-    console.log('Sign In pressed: ', data)
+    console.log('Sign In pressed: ', data.email, data.password)
   }
 
   return (
