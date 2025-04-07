@@ -1,7 +1,9 @@
+import { Control, FieldValues, Path } from 'react-hook-form'
 import { TextInputProps } from 'react-native'
 
-export interface CustomInputProps extends TextInputProps {
+export interface CustomInputProps<T extends FieldValues>
+  extends TextInputProps {
   // Custom props ...
-  control: any
-  name: string
+  control: Control<T>
+  name: Path<T>
 }

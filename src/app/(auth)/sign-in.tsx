@@ -1,33 +1,14 @@
 import { Text, KeyboardAvoidingView, Platform, View } from 'react-native'
 import { CustomInput, CustomButton } from '@/components'
 import { useForm } from 'react-hook-form'
-import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
-
-const signinSchema = z.object({
-  email: z
-    .string({
-      required_error:
-        'Email is required -- Custom Message - .string() - signin.tsx',
-    })
-    .email({
-      message: 'Invalid email -- Custom Message - .email() - signin.tsx',
-    }),
-  password: z
-    .string({
-      required_error:
-        'Password is required -- Custom Message - .string() - signin.tsx',
-    })
-    .min(8, {
-      message:
-        'Password must be at least 8 characters -- Custom Message - .min() - signin.tsx',
-    }),
-})
-
-type SignInFields = z.infer<typeof signinSchema>
+import {
+  SignInFields,
+  signinSchema,
+} from '@/zodSchemas/auth/sign-in.zod.schemas'
 
 export default function SignInScreen() {
-  const { control, handleSubmit } = useForm({
+  const { control, handleSubmit } = useForm<SignInFields>({
     resolver: zodResolver(signinSchema),
   })
 
