@@ -1,7 +1,10 @@
-import { Text, View } from 'react-native'
+import { Text, View, Button } from 'react-native'
 import { Link } from 'expo-router'
+import { useAuth } from '@/providers/AuthProvider' // Custom AuthProvider
 
 export default function OnBoardingScreen() {
+  const { isAuthenticated, signOut } = useAuth() // Custom AuthProvider
+
   return (
     <View className='flex-1 items-center justify-center bg-white gap-20'>
       <Text className='text-2xl font-bold'>Onboarding Screen</Text>
@@ -12,6 +15,9 @@ export default function OnBoardingScreen() {
       >
         Get Started
       </Link>
+
+      <Button title='Sign Out' onPress={signOut} />
+      <Text>{isAuthenticated ? 'Authenticated' : 'Not Authenticated'}</Text>
     </View>
   )
 }

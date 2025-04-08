@@ -7,16 +7,20 @@ import {
   signinSchema,
 } from '@/zodSchemas/auth/sign-in.zod.schemas'
 import HaveAccount from '@/components/Auth/HaveAccount'
+import { useAuth } from '@/providers/AuthProvider' // Custom AuthProvider
 
 export default function SignInScreen() {
   const { control, handleSubmit } = useForm<SignInFields>({
     resolver: zodResolver(signinSchema),
   })
 
+  const { signIn } = useAuth() // Custom AuthProvider
+
   const onSignIn = (data: SignInFields) => {
     // Validate the form
 
     console.log('Sign In pressed: ', data.email, data.password)
+    signIn()
   }
 
   return (
