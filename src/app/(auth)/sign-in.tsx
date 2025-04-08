@@ -6,6 +6,7 @@ import {
   SignInFields,
   signinSchema,
 } from '@/zodSchemas/auth/sign-in.zod.schemas'
+import HaveAccount from '@/components/Auth/HaveAccount'
 
 export default function SignInScreen() {
   const { control, handleSubmit } = useForm<SignInFields>({
@@ -55,7 +56,13 @@ export default function SignInScreen() {
         />
       </View>
 
-      <CustomButton text='Sign In' onPress={handleSubmit(onSignIn)} />
+      <CustomButton text='Sign in' onPress={handleSubmit(onSignIn)} />
+
+      <HaveAccount
+        sign='Sign up'
+        sentence="Don't have an account?"
+        link={'/sign-up'}
+      />
     </KeyboardAvoidingView>
   )
 }
