@@ -1,9 +1,13 @@
-import { Text, View, Button } from 'react-native'
-import { Link } from 'expo-router'
+import { Text, View } from 'react-native'
+import { Link, Redirect } from 'expo-router'
 import { useAuth } from '@/providers/AuthProvider' // Custom AuthProvider
 
 export default function OnBoardingScreen() {
   const { isAuthenticated, signOut } = useAuth() // Custom AuthProvider
+
+  if (isAuthenticated) {
+    return <Redirect href='/(protected)/(tabs)' />
+  }
 
   return (
     <View className='flex-1 items-center justify-center bg-white gap-20'>
@@ -16,7 +20,6 @@ export default function OnBoardingScreen() {
         Get Started
       </Link>
 
-      <Button title='Sign Out' onPress={signOut} />
       <Text>{isAuthenticated ? 'Authenticated' : 'Not Authenticated'}</Text>
     </View>
   )
