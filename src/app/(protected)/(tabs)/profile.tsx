@@ -1,13 +1,13 @@
 import { View, Text, Button } from 'react-native'
-import { useAuth } from '@/providers/AuthProvider' // Custom AuthProvider
+import { useAuth } from '@clerk/clerk-expo'
 
 export default function ProfileScreen() {
-  const { signOut } = useAuth() // Custom AuthProvider
+  const { signOut } = useAuth()
 
   return (
     <View>
       <Text>ProfileScreen</Text>
-      <Button title='Sign Out' onPress={signOut} />
+      <Button title='Sign Out' onPress={() => signOut()} />
     </View>
   )
 }

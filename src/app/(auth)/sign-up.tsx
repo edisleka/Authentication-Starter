@@ -2,22 +2,33 @@ import { Text, KeyboardAvoidingView, Platform, View } from 'react-native'
 import { CustomInput, CustomButton } from '@/components'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-
 import HaveAccount from '@/components/Auth/HaveAccount'
 import {
   SignUpFields,
   signupSchema,
 } from '@/zodSchemas/auth/sign-up.zod.schemas'
+import { useSignUp } from '@clerk/clerk-expo'
 
 export default function SignUpScreen() {
   const { control, handleSubmit } = useForm<SignUpFields>({
     resolver: zodResolver(signupSchema),
   })
 
-  const onSignUp = (data: SignUpFields) => {
-    // Validate the form
+  const { signUp, isLoaded } = useSignUp()
 
-    console.log('Sign Up pressed: ', data.email, data.password)
+  const onSignUp = async (data: SignUpFields) => {
+    if (!isLoaded) return
+
+    try {
+      await signUp.create({
+        emailAddress: data.email,
+        password: data.password,
+      })
+    } catch (error) {
+      console.log('Error signing up -- by Edis: ', error)
+    }
+
+    console.log('Sign Up pressed -- by Edis: ', data.email, data.password)
   }
 
   return (

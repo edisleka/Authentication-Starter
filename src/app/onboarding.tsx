@@ -1,11 +1,11 @@
-import { Text, View } from 'react-native'
+import { useAuth } from '@clerk/clerk-expo'
+import { Button, Text, View } from 'react-native'
 import { Link, Redirect } from 'expo-router'
-import { useAuth } from '@/providers/AuthProvider' // Custom AuthProvider
 
 export default function OnBoardingScreen() {
-  const { isAuthenticated, signOut } = useAuth() // Custom AuthProvider
+  const { isSignedIn, signOut } = useAuth()
 
-  if (isAuthenticated) {
+  if (isSignedIn) {
     return <Redirect href='/(protected)/(tabs)' />
   }
 
@@ -20,7 +20,8 @@ export default function OnBoardingScreen() {
         Get Started
       </Link>
 
-      <Text>{isAuthenticated ? 'Authenticated' : 'Not Authenticated'}</Text>
+      <Text>{isSignedIn ? 'Authenticated' : 'Not Authenticated'}</Text>
+      <Button title='Sign Out' onPress={() => signOut()} />
     </View>
   )
 }

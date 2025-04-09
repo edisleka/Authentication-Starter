@@ -1,10 +1,10 @@
-import { useAuth } from '@/providers/AuthProvider'
+import { useAuth } from '@clerk/clerk-expo'
 import { Redirect, Stack } from 'expo-router'
 
 export default function AuthLayout() {
-  const { isAuthenticated } = useAuth() // Custom AuthProvider
+  const { isSignedIn } = useAuth()
 
-  if (isAuthenticated) {
+  if (isSignedIn) {
     return <Redirect href='/(protected)/(tabs)' />
   }
 

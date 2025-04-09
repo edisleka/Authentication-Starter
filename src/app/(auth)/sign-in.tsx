@@ -7,20 +7,40 @@ import {
   signinSchema,
 } from '@/zodSchemas/auth/sign-in.zod.schemas'
 import HaveAccount from '@/components/Auth/HaveAccount'
-import { useAuth } from '@/providers/AuthProvider' // Custom AuthProvider
+import { useSignIn } from '@clerk/clerk-expo'
 
 export default function SignInScreen() {
   const { control, handleSubmit } = useForm<SignInFields>({
     resolver: zodResolver(signinSchema),
   })
 
-  const { signIn } = useAuth() // Custom AuthProvider
+  const { signIn, isLoaded, setActive } = useSignIn()
 
-  const onSignIn = (data: SignInFields) => {
-    // Validate the form
+  const onSignIn = async (data: SignInFields) => {
+    if (!isLoaded) return
 
-    console.log('Sign In pressed: ', data.email, data.password)
-    signIn()
+    try {
+      const signInAttempt = await signIn.create({
+        identifier: data.email,
+        password: data.password,
+      })
+
+      if (signInAttempt.status === 'complete') {
+        console.log('Sign in successful -- by Edis')
+        setActive({ session: signInAttempt.createdSessionId })
+      } else {
+        console.log('Sign in failed -- by Edis')
+      }
+
+      console.log(
+        'Sign in attempt -- by Edis: ',
+        JSON.stringify(signInAttempt, null, 2)
+      )
+    } catch (error) {
+      console.log('Error signing in -- by Edis: ', error)
+    }
+
+    console.log('Sign In pressed -- by Edis: ', data.email, data.password)
   }
 
   return (
