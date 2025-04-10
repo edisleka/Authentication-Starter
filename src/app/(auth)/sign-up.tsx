@@ -1,4 +1,5 @@
 import { Text, KeyboardAvoidingView, Platform, View } from 'react-native'
+import { useRouter } from 'expo-router'
 import { CustomInput, CustomButton } from '@/components'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -10,6 +11,8 @@ import {
 import { useSignUp } from '@clerk/clerk-expo'
 
 export default function SignUpScreen() {
+  const router = useRouter()
+
   const { control, handleSubmit } = useForm<SignUpFields>({
     resolver: zodResolver(signupSchema),
   })
@@ -24,6 +27,9 @@ export default function SignUpScreen() {
         emailAddress: data.email,
         password: data.password,
       })
+
+      await signUp.prepareVerification({ strategy: 'email_code' })
+      router.push('/verify')
     } catch (error) {
       console.log('Error signing up -- by Edis: ', error)
     }
