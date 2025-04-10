@@ -12,7 +12,7 @@ export default function CustomButton({
       {...props}
       className={`bg-black py-3 rounded-md items-center ${className}`}
     >
-      <Text className={`text-white text-base font-semibold ${textClassName}`}>
+      <Text className={`text-base font-poppins-semibold ${textClassName}`}>
         {text}
       </Text>
     </Pressable>

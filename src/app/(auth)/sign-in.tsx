@@ -117,7 +117,12 @@ export default function SignInScreen() {
         )}
       </View>
 
-      <CustomButton text='Sign in' onPress={handleSubmit(onSignIn)} />
+      <CustomButton
+        text='Sign in'
+        onPress={handleSubmit(onSignIn)}
+        className='bg-black'
+        textClassName='text-white'
+      />
 
       <HaveAccount
         sign='Sign up'
@@ -127,17 +132,23 @@ export default function SignInScreen() {
 
       <View className='flex flex-row items-center my-2'>
         <View className='flex-1 h-px bg-gray-300' />
-        <Text className='mx-4 text-gray-500 font-medium'>or continue with</Text>
+        <Text className='mx-4 text-gray-500 font-poppins-light'>
+          or continue with
+        </Text>
         <View className='flex-1 h-px bg-gray-300' />
       </View>
 
       <SignInWithSocial
         provider='oauth_google'
         social='google'
-        className='bg-white border border-black'
-        textClassName='text-black'
+        className='bg-white border border-black text-black'
       />
-      <SignInWithSocial provider='oauth_apple' social='apple' />
+      <SignInWithSocial
+        provider='oauth_apple'
+        social='apple'
+        className='border border-black'
+        textClassName='text-white'
+      />
     </KeyboardAvoidingView>
   )
 }
