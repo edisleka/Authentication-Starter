@@ -47,7 +47,7 @@ export default function SignUpScreen() {
       await signUp.prepareVerification({ strategy: 'email_code' })
       router.push('/verify')
     } catch (err) {
-      console.log('Error signing up -- by Edis: ', err)
+      // console.log('Error signing up -- by Edis: ', err)
       if (isClerkAPIResponseError(err)) {
         err.errors.forEach((error) => {
           const fieldName = mapClerkErrorToFormField(error)

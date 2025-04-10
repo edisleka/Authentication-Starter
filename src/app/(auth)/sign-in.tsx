@@ -33,7 +33,7 @@ export default function SignInScreen() {
     resolver: zodResolver(signinSchema),
   })
 
-  console.log('Errors -- by Edis: ', JSON.stringify(errors, null, 2))
+  // console.log('Errors -- by Edis: ', JSON.stringify(errors, null, 2))
 
   const { signIn, isLoaded, setActive } = useSignIn()
 
@@ -47,17 +47,17 @@ export default function SignInScreen() {
       })
 
       if (signInAttempt.status === 'complete') {
-        console.log('Sign in successful -- by Edis')
+        // console.log('Sign in successful -- by Edis')
         setActive({ session: signInAttempt.createdSessionId })
         router.replace('/(protected)/(tabs)')
       } else {
-        console.log('Sign in failed -- by Edis')
+        // console.log('Sign in failed -- by Edis')
         setError('root', {
           message: 'Sign in could not be completed',
         })
       }
     } catch (err) {
-      console.log('Error signing in -- by Edis: ', JSON.stringify(err, null, 2))
+      // console.log('Error signing in -- by Edis: ', JSON.stringify(err, null, 2))
 
       if (isClerkAPIResponseError(err)) {
         err.errors.forEach((error) => {
@@ -73,7 +73,7 @@ export default function SignInScreen() {
       }
     }
 
-    console.log('Sign In pressed -- by Edis: ', data.email, data.password)
+    // console.log('Sign In pressed -- by Edis: ', data.email, data.password)
   }
 
   return (

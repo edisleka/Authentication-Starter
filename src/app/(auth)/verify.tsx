@@ -44,11 +44,11 @@ export default function VerifyScreen() {
         await setActive({ session: signUpAttempt.createdSessionId })
         router.replace('/(protected)/(tabs)')
       } else {
-        console.log('Verification failed -- by Edis')
-        console.log(
-          'Verification attempt -- by Edis: ',
-          JSON.stringify(signUpAttempt, null, 2)
-        )
+        // console.log('Verification failed -- by Edis')
+        // console.log(
+        //   'Verification attempt -- by Edis: ',
+        //   JSON.stringify(signUpAttempt, null, 2)
+        // )
         setError('root', {
           message: 'Verification failed',
         })
