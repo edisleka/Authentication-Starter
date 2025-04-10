@@ -10,6 +10,7 @@ import HaveAccount from '@/components/Auth/HaveAccount'
 import { isClerkAPIResponseError, useSignIn } from '@clerk/clerk-expo'
 import { useRouter } from 'expo-router'
 import SignInWithSocial from '@/components/SocialSignIn/SignInWithSocial'
+
 const mapClerkErrorToFormField = (error: any) => {
   switch (error.meta?.paramName) {
     case 'identifier':
@@ -49,7 +50,6 @@ export default function SignInScreen() {
       if (signInAttempt.status === 'complete') {
         // console.log('Sign in successful -- by Edis')
         setActive({ session: signInAttempt.createdSessionId })
-        router.replace('/(protected)/(tabs)')
       } else {
         // console.log('Sign in failed -- by Edis')
         setError('root', {
