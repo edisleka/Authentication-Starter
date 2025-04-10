@@ -21,7 +21,9 @@ export default function CustomInput<T extends FieldValues>({
             value={value}
             onChangeText={onChange}
             onBlur={onBlur}
-            className={`border border-gray-300 p-2.5 rounded-md ${props.className}`}
+            className={`border border-gray-300 p-2.5 rounded-md ${
+              props.className
+            } ${error ? 'border-red-500' : 'border-gray-300'}`}
           />
           <Text className='text-red-500 text-xs'>{error?.message}</Text>
         </View>

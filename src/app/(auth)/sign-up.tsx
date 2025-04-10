@@ -8,12 +8,28 @@ import {
   SignUpFields,
   signupSchema,
 } from '@/zodSchemas/auth/sign-up.zod.schemas'
-import { useSignUp } from '@clerk/clerk-expo'
+import { isClerkAPIResponseError, useSignUp } from '@clerk/clerk-expo'
+
+const mapClerkErrorToFormField = (error: any) => {
+  switch (error.meta?.paramName) {
+    case 'email_address':
+      return 'email'
+    case 'password':
+      return 'password'
+    default:
+      return 'root'
+  }
+}
 
 export default function SignUpScreen() {
   const router = useRouter()
 
-  const { control, handleSubmit } = useForm<SignUpFields>({
+  const {
+    control,
+    handleSubmit,
+    setError,
+    formState: { errors },
+  } = useForm<SignUpFields>({
     resolver: zodResolver(signupSchema),
   })
 
@@ -30,11 +46,21 @@ export default function SignUpScreen() {
 
       await signUp.prepareVerification({ strategy: 'email_code' })
       router.push('/verify')
-    } catch (error) {
-      console.log('Error signing up -- by Edis: ', error)
+    } catch (err) {
+      console.log('Error signing up -- by Edis: ', err)
+      if (isClerkAPIResponseError(err)) {
+        err.errors.forEach((error) => {
+          const fieldName = mapClerkErrorToFormField(error)
+          setError(fieldName, {
+            message: error.longMessage,
+          })
+        })
+      } else {
+        setError('root', {
+          message: 'Unknown error',
+        })
+      }
     }
-
-    console.log('Sign Up pressed -- by Edis: ', data.email, data.password)
   }
 
   return (
@@ -72,6 +98,10 @@ export default function SignUpScreen() {
           textContentType={Platform.OS === 'ios' ? 'password' : undefined}
           importantForAutofill={Platform.OS === 'android' ? 'yes' : undefined}
         />
+
+        {errors.root && (
+          <Text className='text-red-500 text-xs'>{errors.root.message}</Text>
+        )}
       </View>
 
       <CustomButton text='Sign Up' onPress={handleSubmit(onSignUp)} />

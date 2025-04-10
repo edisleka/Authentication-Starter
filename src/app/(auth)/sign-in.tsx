@@ -1,4 +1,4 @@
-import { Text, KeyboardAvoidingView, Platform, View } from 'react-native'
+import { Text, KeyboardAvoidingView, Platform, View, Alert } from 'react-native'
 import { CustomInput, CustomButton } from '@/components'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -7,15 +7,33 @@ import {
   signinSchema,
 } from '@/zodSchemas/auth/sign-in.zod.schemas'
 import HaveAccount from '@/components/Auth/HaveAccount'
-import { useSignIn } from '@clerk/clerk-expo'
+import { isClerkAPIResponseError, useSignIn } from '@clerk/clerk-expo'
 import { useRouter } from 'expo-router'
+
+const mapClerkErrorToFormField = (error: any) => {
+  switch (error.meta?.paramName) {
+    case 'identifier':
+      return 'email'
+    case 'password':
+      return 'password'
+    default:
+      return 'root'
+  }
+}
 
 export default function SignInScreen() {
   const router = useRouter()
 
-  const { control, handleSubmit } = useForm<SignInFields>({
+  const {
+    control,
+    handleSubmit,
+    setError,
+    formState: { errors },
+  } = useForm<SignInFields>({
     resolver: zodResolver(signinSchema),
   })
+
+  console.log('Errors -- by Edis: ', JSON.stringify(errors, null, 2))
 
   const { signIn, isLoaded, setActive } = useSignIn()
 
@@ -34,14 +52,25 @@ export default function SignInScreen() {
         router.replace('/(protected)/(tabs)')
       } else {
         console.log('Sign in failed -- by Edis')
+        setError('root', {
+          message: 'Sign in could not be completed',
+        })
       }
+    } catch (err) {
+      console.log('Error signing in -- by Edis: ', JSON.stringify(err, null, 2))
 
-      console.log(
-        'Sign in attempt -- by Edis: ',
-        JSON.stringify(signInAttempt, null, 2)
-      )
-    } catch (error) {
-      console.log('Error signing in -- by Edis: ', error)
+      if (isClerkAPIResponseError(err)) {
+        err.errors.forEach((error) => {
+          const fieldName = mapClerkErrorToFormField(error)
+          setError(fieldName, {
+            message: error.longMessage,
+          })
+        })
+      } else {
+        setError('root', {
+          message: 'Unknown error',
+        })
+      }
     }
 
     console.log('Sign In pressed -- by Edis: ', data.email, data.password)
@@ -82,6 +111,10 @@ export default function SignInScreen() {
           textContentType={Platform.OS === 'ios' ? 'password' : undefined}
           importantForAutofill={Platform.OS === 'android' ? 'yes' : undefined}
         />
+
+        {errors.root && (
+          <Text className='text-red-500 text-xs'>{errors.root.message}</Text>
+        )}
       </View>
 
       <CustomButton text='Sign in' onPress={handleSubmit(onSignIn)} />

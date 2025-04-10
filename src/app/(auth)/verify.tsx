@@ -2,17 +2,31 @@ import { Text, KeyboardAvoidingView, Platform, View } from 'react-native'
 import { CustomInput, CustomButton } from '@/components'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useSignUp } from '@clerk/clerk-expo'
+import { isClerkAPIResponseError, useSignUp } from '@clerk/clerk-expo'
 import {
   VerifyFields,
   verifySchema,
 } from '@/zodSchemas/auth/verify.zod.schemas'
 import { useRouter } from 'expo-router'
 
+const mapClerkErrorToFormField = (error: any) => {
+  switch (error.meta?.paramName) {
+    case 'code':
+      return 'code'
+    default:
+      return 'root'
+  }
+}
+
 export default function VerifyScreen() {
   const router = useRouter()
 
-  const { control, handleSubmit } = useForm<VerifyFields>({
+  const {
+    control,
+    handleSubmit,
+    setError,
+    formState: { errors },
+  } = useForm<VerifyFields>({
     resolver: zodResolver(verifySchema),
   })
 
@@ -35,9 +49,23 @@ export default function VerifyScreen() {
           'Verification attempt -- by Edis: ',
           JSON.stringify(signUpAttempt, null, 2)
         )
+        setError('root', {
+          message: 'Verification failed',
+        })
       }
-    } catch (error) {
-      console.log('Error verifying email -- by Edis: ', error)
+    } catch (err) {
+      if (isClerkAPIResponseError(err)) {
+        err.errors.forEach((error) => {
+          const fieldName = mapClerkErrorToFormField(error)
+          setError(fieldName, {
+            message: error.longMessage,
+          })
+        })
+      } else {
+        setError('root', {
+          message: 'Unknown error',
+        })
+      }
     }
   }
 
