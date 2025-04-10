@@ -9,7 +9,7 @@ import {
 import HaveAccount from '@/components/Auth/HaveAccount'
 import { isClerkAPIResponseError, useSignIn } from '@clerk/clerk-expo'
 import { useRouter } from 'expo-router'
-
+import SignInWithSocial from '@/components/SocialSignIn/SignInWithSocial'
 const mapClerkErrorToFormField = (error: any) => {
   switch (error.meta?.paramName) {
     case 'identifier':
@@ -124,6 +124,9 @@ export default function SignInScreen() {
         sentence="Don't have an account?"
         link={'/sign-up'}
       />
+
+      <SignInWithSocial provider='oauth_google' social='google' />
+      <SignInWithSocial provider='oauth_apple' social='apple' />
     </KeyboardAvoidingView>
   )
 }

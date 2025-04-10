@@ -19,8 +19,6 @@ export default function OnBoardingScreen() {
       >
         Get Started
       </Link>
-
-      <Text>{isSignedIn ? 'Authenticated' : 'Not Authenticated'}</Text>
     </View>
   )
 }
