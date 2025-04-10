@@ -17,7 +17,7 @@ export default function OnBoardingScreen() {
 
       <Link
         href='/sign-in'
-        className='bg-primary px-8 py-4 rounded-full text-light font-bold text-lg shadow-md '
+        className='bg-primary px-8 py-4 rounded-full text-light text-lg shadow-md font-poppins-semibold'
       >
         Get Started
       </Link>
