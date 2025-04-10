@@ -3,7 +3,7 @@ import * as AuthSession from 'expo-auth-session'
 import { CustomButton } from '@/components'
 import { useCallback, useEffect } from 'react'
 import { useSSO } from '@clerk/clerk-expo'
-import { OAuthStrategy, Social } from './SignInWithSocial.types'
+import { SignInWithSocialProps } from './SignInWithSocial.types'
 import { capitalizeFirstLetter } from '@/helpers/capitalize'
 
 export const useWarmUpBrowser = () => {
@@ -23,10 +23,9 @@ WebBrowser.maybeCompleteAuthSession()
 export default function SignInWithSocial({
   provider,
   social,
-}: {
-  provider: OAuthStrategy
-  social: Social
-}) {
+  className,
+  textClassName,
+}: SignInWithSocialProps) {
   useWarmUpBrowser()
 
   // Use the `useSSO()` hook to access the `startSSOFlow()` method
@@ -62,8 +61,10 @@ export default function SignInWithSocial({
 
   return (
     <CustomButton
-      text={`Sign in with ${capitalizeFirstLetter(social)}`}
+      text={`${capitalizeFirstLetter(social)}`}
       onPress={onPress}
+      className={className}
+      textClassName={textClassName}
     />
   )
 }

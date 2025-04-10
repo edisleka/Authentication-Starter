@@ -30,3 +30,10 @@ type OAuthProvider =
 
 export type OAuthStrategy = `oauth_${OAuthProvider}`
 export type Social = OAuthProvider
+
+export interface SignInWithSocialProps {
+  provider: OAuthStrategy
+  social: Social
+  className?: string
+  textClassName?: string
+}

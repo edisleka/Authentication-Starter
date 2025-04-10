@@ -125,7 +125,18 @@ export default function SignInScreen() {
         link={'/sign-up'}
       />
 
-      <SignInWithSocial provider='oauth_google' social='google' />
+      <View className='flex flex-row items-center my-2'>
+        <View className='flex-1 h-px bg-gray-300' />
+        <Text className='mx-4 text-gray-500 font-medium'>or continue with</Text>
+        <View className='flex-1 h-px bg-gray-300' />
+      </View>
+
+      <SignInWithSocial
+        provider='oauth_google'
+        social='google'
+        className='bg-white border border-black'
+        textClassName='text-black'
+      />
       <SignInWithSocial provider='oauth_apple' social='apple' />
     </KeyboardAvoidingView>
   )
